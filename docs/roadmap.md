@@ -1,6 +1,6 @@
 # Roadmap y aceptación
 
-El H0 revisado establece una herramienta personal de cobranza manual. H1–H8 están implementados y verificados. H9 tiene QA aprobado, credenciales productivas configuradas, el primer despliegue Vercel `READY` y una copia operativa verificada del catálogo productivo. Falta configurar OAuth productivo y comprobar manualmente el acceso completo.
+El H0 revisado establece una herramienta personal de cobranza manual. H1–H8 están implementados y verificados. H9 tiene QA aprobado, variables productivas de base de datos y sesión configuradas, el primer despliegue Vercel `READY` y una copia operativa verificada del catálogo productivo. Las credenciales de GitHub OAuth productivo siguen pendientes; falta configurarlas y comprobar manualmente el acceso completo.
 
 | Hito | Entrega | Criterio de aceptación |
 | --- | --- | --- |
@@ -12,18 +12,19 @@ El H0 revisado establece una herramienta personal de cobranza manual. H1–H8 es
 | H6 — Cobranzas | Períodos, pago completo, vencidos, ajustes e importación histórica | Sin duplicados ni deriva; descuentos explícitos y caja por fecha real |
 | H7 — Trabajos | Pedidos, estado, precio, gratuitos, finalización y pago | La venta original permanece independiente; operación y cobro no se confunden |
 | H8 — Dashboard | Deuda, caja, vencimientos, dominios, últimos pagos y precios antiguos | Totales con las tres fuentes de cobro y monedas separadas |
-| H9 — QA y producción | QA aprobado; secretos configurados; despliegue `READY`; backup del catálogo restaurado localmente | Configurar OAuth productivo y comprobar login y flujo productivo |
+| H9 — QA y producción | QA aprobado; BD y sesión configuradas; despliegue `READY`; backup del catálogo restaurado localmente | Configurar GitHub OAuth productivo y comprobar login y flujo productivo |
 
 ## Evidencia final de verificación local y QA
 
 - La ejecución final de Vitest aprobó **68 pruebas en 8 archivos**, con código de salida 0. Incluye dominio, auth, acciones, migraciones y backups.
 - Lint, tipos y build final pasaron; todas las rutas privadas quedaron dinámicas.
+- La [CI 38597177662](https://github.com/ramiro-gp/web-admin/actions/runs/38597177662) pasó para el commit `2e031f4`.
 - Playwright aprobó **3 de 3 pruebas** con una rama QA real de Neon, aislada de desarrollo y producción.
 - La verificación visual registró **12 capturas**, en mobile de 390 px y desktop de 1440 px.
 - Desarrollo, producción y QA tienen las **4 migraciones aplicadas**. Desarrollo y producción tienen solamente el catálogo inicial; los fixtures permanecen en QA y no se agregaron datos comerciales reales.
 - Proyecto Vercel: `prj_FeiQwRwK7oFmMwMUZPCVbORzeJQG`. Primer despliegue: `dpl_DNr7ebm5yCZaD5BzjDYySZaddc7W`, confirmado en estado `READY`.
 - Backup operativo de producción creado mediante lectura: **5 filas del catálogo**, sin datos comerciales. Restaurado en PGlite temporal con 4 migraciones, tablas idénticas y 0 registros de autenticación; no hubo escrituras en producción.
 
-La autorización para enviar los secretos productivos a Vercel está resuelta y la configuración fue realizada. El origen principal es [web-admin en Vercel](https://web-admin-ramiroariel-carp-hotmailcoms-projects.vercel.app), con alias adicional [web-admin-phi-two](https://web-admin-phi-two.vercel.app). El login productivo todavía no está verificado: la protección de Vercel solicita su propio acceso y falta la segunda OAuth App. Sus credenciales se entregan mediante el archivo local ignorado `.local/github-production.env`, conservando la app de desarrollo.
+La autorización para enviar los secretos productivos a Vercel está resuelta y las variables de base de datos y sesión fueron configuradas. El origen principal es [web-admin en Vercel](https://web-admin-ramiroariel-carp-hotmailcoms-projects.vercel.app), con alias adicional [web-admin-phi-two](https://web-admin-phi-two.vercel.app). El login productivo todavía no está verificado: la protección de Vercel solicita su propio acceso y falta la segunda OAuth App. Sus credenciales se entregan mediante el archivo local ignorado `.local/github-production.env`, conservando la app de desarrollo.
 
 La revisión de la exportación está resuelta. El archivo cifrado operativo está en `.backups/production-2026-10-14-operational.webadmin.enc`, con contraseña en el archivo local ignorado `.local/backup-password.env`. La restauración comprobada fue local en PostgreSQL WASM, no en otro servicio Neon. Repetir la prueba cuando existan datos comerciales reales.

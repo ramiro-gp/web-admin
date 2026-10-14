@@ -6,7 +6,7 @@ La V1 guarda un pago completo por período de un plan. Conserva precios, períod
 
 ## Estado
 
-H1–H8 están implementados y verificados: 68 pruebas aprobadas, lint, tipos, build y E2E correctos. El primer despliegue en Vercel está `READY` y las credenciales productivas están configuradas. H9 sigue pendiente de OAuth productivo y de comprobar el acceso completo a la aplicación. Usar el origen principal [web-admin en Vercel](https://web-admin-ramiroariel-carp-hotmailcoms-projects.vercel.app); la protección de Vercel solicita su propio acceso antes de la aplicación. La configuración de desarrollo permanece local y no se versiona.
+H1–H8 están implementados y verificados: 68 pruebas aprobadas, lint, tipos, build y E2E correctos. El primer despliegue en Vercel está `READY` y las variables productivas de base de datos y sesión están configuradas. Las credenciales de GitHub OAuth productivo siguen pendientes; H9 requiere configurarlas y comprobar el acceso completo a la aplicación. Usar el origen principal [web-admin en Vercel](https://web-admin-ramiroariel-carp-hotmailcoms-projects.vercel.app); la protección de Vercel solicita su propio acceso antes de la aplicación. La configuración de desarrollo permanece local y no se versiona.
 
 ## Stack
 
@@ -54,6 +54,8 @@ Neon de desarrollo: `weathered-bar-44036989`. Neon de producción: `shiny-voice-
 | `pnpm db:restore --file .backups/respaldo.webadmin.enc` | Descifrar y validar formato sin conectar a una base |
 
 La CI ejecuta instalación con lockfile, lint, tipos, pruebas y build. E2E requiere una rama QA aislada y una sesión local preparada; no se ejecuta automáticamente contra producción.
+
+La [ejecución de CI 38597177662](https://github.com/ramiro-gp/web-admin/actions/runs/38597177662) pasó para el commit `2e031f4`.
 
 ## Documentación
 

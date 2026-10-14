@@ -85,7 +85,7 @@ pnpm build
 
 Vitest cubre calendario, dinero, métricas, política OAuth, auth, acciones, migraciones y backups. PGlite ejecuta PostgreSQL WASM y aplica las migraciones SQL reales en bases temporales, sin necesitar Docker ni credenciales remotas. La CI ejecuta esos cuatro controles con Node 24 y lockfile congelado.
 
-La ejecución final aprobó 68 pruebas en 8 archivos, con salida 0. Lint, tipos y build final pasaron, con todas las rutas privadas dinámicas. Playwright aprobó 3 de 3 pruebas completas sobre Neon QA real. La revisión visual produjo 12 capturas en anchos de 390 px y 1440 px. Estos resultados verifican la implementación y QA; no confirman que el primer despliegue productivo haya finalizado.
+La ejecución final aprobó 68 pruebas en 8 archivos, con salida 0. Lint, tipos y build final pasaron, con todas las rutas privadas dinámicas. Playwright aprobó 3 de 3 pruebas completas sobre Neon QA real. La revisión visual produjo 12 capturas en anchos de 390 px y 1440 px. Estos resultados verifican la implementación y QA; no verifican el login productivo. La [CI 38597177662](https://github.com/ramiro-gp/web-admin/actions/runs/38597177662) pasó para el commit `2e031f4`.
 
 Playwright utiliza `http://localhost:3001`, una rama QA confirmada y `.local/e2e-storage.json`. El runner de fixtures mantiene intacta la autenticación de la aplicación: recorre Better Auth con respuestas del proveedor controladas y obtiene una sesión válida para una identidad exclusiva de QA. No incorpora un bypass de login al producto.
 
@@ -115,7 +115,7 @@ Los archivos `.local/`, reportes y trazas están ignorados. La sesión exportada
 
 ## Producción en Vercel
 
-El proyecto Vercel `prj_FeiQwRwK7oFmMwMUZPCVbORzeJQG` tiene autorizadas y configuradas las variables productivas `DATABASE_URL`, `DIRECT_DATABASE_URL`, `BETTER_AUTH_SECRET`, `ADMIN_GITHUB_ID` y `BETTER_AUTH_URL`. El primer despliegue `dpl_DNr7ebm5yCZaD5BzjDYySZaddc7W` está confirmado `READY`.
+El proyecto Vercel `prj_FeiQwRwK7oFmMwMUZPCVbORzeJQG` tiene autorizadas y configuradas las variables productivas de base de datos y sesión: `DATABASE_URL`, `DIRECT_DATABASE_URL`, `BETTER_AUTH_SECRET`, `ADMIN_GITHUB_ID` y `BETTER_AUTH_URL`. Las credenciales `GITHUB_CLIENT_ID` y `GITHUB_CLIENT_SECRET` de producción siguen pendientes. El primer despliegue `dpl_DNr7ebm5yCZaD5BzjDYySZaddc7W` está confirmado `READY`, también mediante la conexión Vercel instalada nuevamente.
 
 El origen principal es [web-admin en Vercel](https://web-admin-ramiroariel-carp-hotmailcoms-projects.vercel.app), con alias adicional [web-admin-phi-two](https://web-admin-phi-two.vercel.app). Usar el principal durante login y OAuth. El navegador solicita acceso SSO de Vercel antes de llegar a la aplicación, por lo que el login productivo todavía no fue comprobado. La inspección automatizada de logs y acceso protegido devolvió 403 por alcance del conector y no hay CLI disponible; eso no demuestra un fallo de la aplicación. La comprobación final será manual una vez configurado OAuth.
 
