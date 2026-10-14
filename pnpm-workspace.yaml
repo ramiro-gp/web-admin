@@ -1,0 +1,7 @@
+packages:
+  - .
+saveExact: true
+strictPeerDependencies: true
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true

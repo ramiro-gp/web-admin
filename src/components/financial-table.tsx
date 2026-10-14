@@ -1,0 +1,9 @@
+import Link from "next/link";
+import type { FinancialRow } from "@/lib/billing";
+import { formatDate, today } from "@/lib/calendar";
+import { formatMoney } from "@/lib/money";
+import { Badge, Empty, Table } from "@/components/ui";
+
+export const sourceLabels:Record<FinancialRow["source"],string>={period:"Plan recurrente",sale:"Venta original",work:"Trabajo adicional"};
+const financialHref=(row:FinancialRow)=>row.source==="work"?`/trabajos#trabajo-${row.id}`:row.source==="sale"?`/sitios/${row.websiteId}`:`/cobranzas?client=${row.clientId}`;
+export function FinancialTable({rows,payments=false}:{rows:FinancialRow[];payments?:boolean}) { if(!rows.length)return <Empty title={payments?"Sin pagos registrados":"Sin importes pendientes"} description={payments?"Los cobros aparecerán por su fecha real de recepción.":"Los pagos completos dejan de integrar la deuda."}/>;return <Table headers={[payments?"Fecha de pago":"Cliente / sitio","Concepto",...(payments?["Cliente / sitio"]:["Vencimiento"]),"Importe",...(payments?[]:["Estado"])]}>{rows.map(r=><tr key={`${r.source}-${r.id}`}><td>{payments?<span className="mono">{formatDate(r.paidOn)}</span>:<><Link href={`/clientes/${r.clientId}`} className="table-primary text-link">{r.clientName}</Link><div className="table-secondary">{r.websiteName}</div></>}</td><td><Link className="text-link" href={financialHref(r)}>{r.label}</Link><div className="table-secondary">{sourceLabels[r.source]}</div></td>{payments?<td><Link href={`/sitios/${r.websiteId}`} className="text-link">{r.clientName}</Link><div className="table-secondary">{r.websiteName}</div></td>:<td className="mono">{formatDate(r.dueOn)}</td>}<td className="amount">{formatMoney(r.amountMinor,r.currency)}</td>{!payments&&<td><Badge label={r.dueOn&&r.dueOn<today()?"Vencido":"Pendiente"} tone={r.dueOn&&r.dueOn<today()?"overdue":"pending"}/></td>}</tr>)}</Table>; }
